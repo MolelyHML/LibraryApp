@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь </title>
+</head>
+<body>
+<p th:text="${person.getFullName()}">VALUE</p>
+<p th:text="${person.getBirthDate().toString().substring(0,11)}">VALUE</p>
+<p th:text="${person.getPersonId()}">VALUE</p>
+<br/>
+<a th:href="@{/people/{id}/edit (id=${person.getPersonId()})}">Изменить!</a>
+<br/>
+<h3>Список книг пользователя:</h3>
+<div th:each="book : ${books}" th:if="${books.size() != 0}">
+    <a th:href="@{/books/{id}(id=${book.getBookId()})}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getDateOfPublication().toString().substring(0,4)}">book</a>
+</div>
+<div th:if="${books.size() == 0}">
+    <p>Человек пока не взял ни одной книги.</p>
+</div>
+<hr/>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
+    <input type="submit" value="Удалить!">
+</form>
+<br/>
+</body>
+</html>

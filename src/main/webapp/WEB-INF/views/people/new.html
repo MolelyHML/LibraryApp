@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание пользователя</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+  <label for="fullname">Введите ФИО</label>
+  <input type="text" th:field="*{fullName}" id="fullname"/>
+  <div style="color:red" th:id="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">FullName Error!</div>
+  <br/>
+  <label for="birthdate">Введите дату рождения</label>
+  <input type="date" th:field="*{birthDate}" id="birthdate"/>
+  <div style="color:red" th:id="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">Birthdate Error!</div>
+  <br/>
+  <input type="submit" value="Создать!"/>
+</form>
+</body>
+</html>
