@@ -6,7 +6,7 @@
 </head>
 <body>
 <p th:text="${person.getFullName()}">VALUE</p>
-<p th:text="${person.getBirthDate().toString().substring(0,11)}">VALUE</p>
+<p th:text="${person.getBirthDate().toString().substring(0,10)}">VALUE</p>
 <p th:text="${person.getPersonId()}">VALUE</p>
 <br/>
 <a th:href="@{/people/{id}/edit (id=${person.getPersonId()})}">Изменить!</a>

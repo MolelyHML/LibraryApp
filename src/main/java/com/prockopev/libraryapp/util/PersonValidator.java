@@ -1,24 +1,19 @@
 package com.prockopev.libraryapp.util;
 
-import com.prockopev.libraryapp.dao.PersonDAO;
-import com.prockopev.libraryapp.model.Person;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.prockopev.libraryapp.models.Person;
+import com.prockopev.libraryapp.services.PersonService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 @Component
 public class PersonValidator implements Validator {
-    private final PersonDAO personDAO;
+    private final PersonService personService;
 
-    @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PersonService personService) {
+        this.personService = personService;
     }
+
 
     @Override
     public boolean supports(Class<?> clazz) {

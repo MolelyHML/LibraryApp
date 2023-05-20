@@ -11,15 +11,15 @@
 <br/>
 <a th:href="@{/books/{id}/edit (id=${book.getBookId()})}">Изменить</a>
 <br/>
-<div th:if="${people.size() != 0}">
-    <div th:each="person : ${people}">
-        <p th:text="'Книга находится у: ' + ${person.getFullName()}">PersonVALUE</p>
+<div th:if="${owner != null}">
+    <div>
+        <p th:text="'Книга находится у: ' + ${owner.getFullName()}">PersonVALUE</p>
         <form th:method="PATCH" th:action="@{/books/{id}/free (id=${book.getBookId()})}" th:object="${book}">
             <input type="submit" value="Освободить!">
         </form>
     </div>
 </div>
-<div th:if="${people.size() == 0}">
+<div th:if="${owner == null}">
     <p>Книга находится в библиотеке</p>
     <label for="form">Выберите кому назначить книгу:</label>
     <form id="form" th:method="PATCH" th:action="@{/books/{id}/catch(id=${book.getBookId()})}">

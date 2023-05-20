@@ -1,19 +1,37 @@
-package com.prockopev.libraryapp.model;
+package com.prockopev.libraryapp.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Objects;
 
+@Entity
+@Table(name = "book")
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private int bookId;
-    private int personId;
+
+    @Column(name = "title")
     @NotEmpty(message = "Необходимо указать название книги")
     private String title;
+
+    @Column(name = "author")
     @NotEmpty(message = "Автор должен быть указан")
     private String author;
+
+    @Column(name = "date_of_publication")
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfPublication;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person owner;
 
     public Book(int bookId, String title, String author, Date dateOfPublication) {
         this.bookId = bookId;
@@ -33,13 +51,6 @@ public class Book {
         this.bookId = bookId;
     }
 
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
-    }
 
     public String getTitle() {
         return title;
@@ -65,12 +76,40 @@ public class Book {
         this.dateOfPublication = dateOfPublication;
     }
 
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (bookId != book.bookId) return false;
+        if (!title.equals(book.title)) return false;
+        if (!author.equals(book.author)) return false;
+        return Objects.equals(dateOfPublication, book.dateOfPublication);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = bookId;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + (dateOfPublication != null ? dateOfPublication.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
-                "bookId=" + bookId +
-                ", personId=" + personId +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", dateOfPublication=" + dateOfPublication +
                 '}';
