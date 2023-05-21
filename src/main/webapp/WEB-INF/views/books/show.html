@@ -13,7 +13,7 @@
 <br/>
 <div th:if="${owner != null}">
     <div>
-        <p th:text="'Книга находится у: ' + ${owner.getFullName()}">PersonVALUE</p>
+        <p th:style="${book.isOverdue()} ? 'color:red' : 'color:black'" th:text="'Книга находится у: ' + ${owner.getFullName()}">PersonVALUE</p>
         <form th:method="PATCH" th:action="@{/books/{id}/free (id=${book.getBookId()})}" th:object="${book}">
             <input type="submit" value="Освободить!">
         </form>

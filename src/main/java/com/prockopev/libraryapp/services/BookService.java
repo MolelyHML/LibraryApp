@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,8 +18,6 @@ import java.util.Objects;
 public class BookService {
 
     private final BooksRepository booksRepository;
-
-
 
     @Autowired
     public BookService(BooksRepository booksRepository) {
@@ -47,7 +46,12 @@ public class BookService {
     }
 
     public Book findById(int id) {
-        return booksRepository.findById(id).orElse(null);
+        Book book = booksRepository.findById(id).orElse(null);
+
+        if(book != null)
+            book.checkOverdue();
+
+        return book;
     }
 
     @Transactional
@@ -59,15 +63,22 @@ public class BookService {
     public void free(int id) {
         Book bookForFree = booksRepository.findById(id).orElse(null);
 
-        if(bookForFree != null)
+        if(bookForFree != null) {
             bookForFree.setOwner(null);
+            bookForFree.setCatchTime(null);
+        }
 
         save(bookForFree);
     }
 
     @Transactional
     public void catchBook(int bookId, Person person) {
-        booksRepository.findById(bookId).ifPresent(bookForCatch -> bookForCatch.setOwner(person));
+        Book catchedBook = booksRepository.findById(bookId).orElse(null);
+
+        if(catchedBook != null) {
+            catchedBook.setCatchTime(new Date());
+            catchedBook.setOwner(person);
+        }
 
     }
 

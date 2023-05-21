@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "book")
@@ -32,6 +31,16 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     private Person owner;
+
+    @Column(name = "catch_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date catchTime;
+
+    @Transient
+    private boolean overdue;
+
+    @Transient
+    private final long tenDays = 10 * 86400000;
 
     public Book(int bookId, String title, String author, Date dateOfPublication) {
         this.bookId = bookId;
@@ -84,26 +93,26 @@ public class Book {
         this.owner = owner;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        if (bookId != book.bookId) return false;
-        if (!title.equals(book.title)) return false;
-        if (!author.equals(book.author)) return false;
-        return Objects.equals(dateOfPublication, book.dateOfPublication);
+    public Date getCatchTime() {
+        return catchTime;
     }
 
-    @Override
-    public int hashCode() {
-        int result = bookId;
-        result = 31 * result + title.hashCode();
-        result = 31 * result + author.hashCode();
-        result = 31 * result + (dateOfPublication != null ? dateOfPublication.hashCode() : 0);
-        return result;
+    public void setCatchTime(Date catchTime) {
+        this.catchTime = catchTime;
+    }
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
+    }
+
+    public void checkOverdue() {
+        if(catchTime != null)
+            setOverdue(System.currentTimeMillis() >= catchTime.getTime() + tenDays);
+
     }
 
     @Override

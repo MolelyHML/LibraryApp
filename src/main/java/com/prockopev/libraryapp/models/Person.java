@@ -29,6 +29,7 @@ public class Person {
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
+
     public Person(int personId, String fullName, Date birthDate) {
         this.personId = personId;
         this.fullName = fullName;
@@ -70,25 +71,6 @@ public class Person {
         this.books = books;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Person person = (Person) o;
-
-        if (personId != person.personId) return false;
-        if (!fullName.equals(person.fullName)) return false;
-        return Objects.equals(birthDate, person.birthDate);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = personId;
-        result = 31 * result + fullName.hashCode();
-        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        return result;
-    }
 
     @Override
     public String toString() {
