@@ -4,7 +4,6 @@ import com.prockopev.libraryapp.models.Book;
 import com.prockopev.libraryapp.models.Person;
 import com.prockopev.libraryapp.repository.BooksRepository;
 import com.prockopev.libraryapp.repository.PeopleRepository;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,4 +55,6 @@ public class PersonService {
         Person personToDelete = peopleRepository.findById(id).orElse(null);
         peopleRepository.delete(Objects.requireNonNull(personToDelete));
     }
+
+
 }

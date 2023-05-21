@@ -3,7 +3,6 @@ package com.prockopev.libraryapp.services;
 import com.prockopev.libraryapp.models.Book;
 import com.prockopev.libraryapp.models.Person;
 import com.prockopev.libraryapp.repository.BooksRepository;
-import com.prockopev.libraryapp.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -67,14 +67,16 @@ public class BookService {
 
     @Transactional
     public void catchBook(int bookId, Person person) {
-        Book bookForCatch = booksRepository.findById(bookId).orElse(null);
+        booksRepository.findById(bookId).ifPresent(bookForCatch -> bookForCatch.setOwner(person));
 
-        if(bookForCatch != null)
-            bookForCatch.setOwner(person);
     }
 
     @Transactional
     public void delete(int id) {
-        booksRepository.delete(booksRepository.findById(id).orElse(null));
+        booksRepository.delete(Objects.requireNonNull(booksRepository.findById(id).orElse(null)));
+    }
+
+    public Book findByTitleStartingWith(String startingWith) {
+        return booksRepository.findByTitleStartingWith(startingWith).orElse(null);
     }
 }

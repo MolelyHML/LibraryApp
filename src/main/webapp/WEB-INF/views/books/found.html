@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Найденная книга</title>
+</head>
+<body>
+<div th:if="${foundBook != null}">
+    <p th:text="${'Книга: ' + foundBook.getTitle() + ' ' + foundBook.getAuthor() }"></p>
+    <p th:text="${'Владелец: ' + foundBook.getOwner().getFullName()}"></p>
+</div>
+<div th:if="${foundBook == null}">
+    <div>
+        <p>Таких книг не найдено</p>
+    </div>
+</div>
+</body>
+</html>

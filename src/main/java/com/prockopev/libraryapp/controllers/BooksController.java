@@ -7,7 +7,6 @@ import com.prockopev.libraryapp.services.PersonService;
 import com.prockopev.libraryapp.util.BookValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,14 +35,18 @@ public class BooksController {
                         @RequestParam(value = "items_per_page", required = false) Integer itemsPerPage,
                         @RequestParam(value = "sort", required = false) String sort) {
 
-        if(page != null & itemsPerPage != null)
-            model.addAttribute("books", bookService.findAll(page, itemsPerPage));
-        else if(page != null & itemsPerPage != null & sort != null)
-            model.addAttribute("books", bookService.findAll(page, itemsPerPage, sort));
-        else if(page == null & itemsPerPage == null & sort != null)
-            model.addAttribute("books", bookService.findAll(sort));
-        else
-            model.addAttribute("books", bookService.findAll());
+        if(sort != null) {
+            if(page != null)
+                model.addAttribute("books", bookService.findAll(page, itemsPerPage, sort));
+            else
+                model.addAttribute("books", bookService.findAll(sort));
+        }
+        else {
+            if(page != null)
+                model.addAttribute("books", bookService.findAll(page, itemsPerPage));
+            else
+                model.addAttribute("books", bookService.findAll());
+        }
 
         return "books/index";
     }
@@ -59,7 +62,7 @@ public class BooksController {
         bookValidator.validate(book, bindingResult);
 
         if(bindingResult.hasErrors())
-            return "/book/new";
+            return "/books/new";
 
         bookService.save(book);
         return "redirect:/books";
@@ -102,6 +105,22 @@ public class BooksController {
         return "redirect:/books/{id}";
     }
 
+    @GetMapping("/search")
+    public String search(@ModelAttribute("book")Book book) {
+        return "books/search";
+    }
+
+    @GetMapping("/find")
+    public String find(@ModelAttribute("book") Book book, Model model) {
+        String s = book.getTitle();
+
+        Book foundBook = bookService.findByTitleStartingWith(s);
+
+        model.addAttribute("foundBook", foundBook);
+
+        return "/books/found";
+    }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id")int id) {
         bookService.delete(id);
@@ -109,5 +128,5 @@ public class BooksController {
         return "redirect:/books";
     }
 
-//    @GetMapping("/{id}/edit")
+
 }
