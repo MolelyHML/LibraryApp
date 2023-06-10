@@ -1,4 +1,4 @@
-# LibraryApp2.0
+<h1>LibraryApp</h1>
 LibraryApp with adding hibernate and spring data jpa
 Стек технологий: Java 11, Spring Core, Spring MVC, Spring Data Jpa, Apache Tomcat 10
 
