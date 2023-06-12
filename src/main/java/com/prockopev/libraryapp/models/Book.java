@@ -105,6 +105,14 @@ public class Book {
         this.catchTime = catchTime;
     }
 
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
     public boolean isOverdue() {
         return overdue;
     }

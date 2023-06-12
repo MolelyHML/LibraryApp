@@ -1,6 +1,7 @@
 package com.prockopev.libraryapp.controllers;
 
 import com.prockopev.libraryapp.models.Book;
+import com.prockopev.libraryapp.models.Genre;
 import com.prockopev.libraryapp.models.Person;
 import com.prockopev.libraryapp.services.BookService;
 import com.prockopev.libraryapp.services.PersonService;
@@ -53,13 +54,16 @@ public class BooksController {
 
 
     @GetMapping("/new")
-    public String addBook(@ModelAttribute("book")Book book) {
+    public String addBook(@ModelAttribute("book")Book book, @ModelAttribute("genre")Genre genre) {
         return "books/new";
     }
 
     @PostMapping
-    public String createBook(@ModelAttribute("book")@Valid Book book, BindingResult bindingResult) {
+    public String createBook(@ModelAttribute("book")@Valid Book book, BindingResult bindingResult,
+                             @Valid String genreName) {
         bookValidator.validate(book, bindingResult);
+
+        System.out.println(genreName);
 
         if(bindingResult.hasErrors())
             return "/books/new";
