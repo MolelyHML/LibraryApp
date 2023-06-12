@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -35,6 +36,9 @@ public class Book {
     @Column(name = "catch_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date catchTime;
+
+    @ManyToMany(mappedBy = "books")
+    private List<Genre> genres;
 
     @Transient
     private boolean overdue;
