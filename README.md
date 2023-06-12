@@ -1,7 +1,17 @@
 <h1>LibraryApp</h1>
-LibraryApp with adding hibernate and spring data jpa
-Стек технологий: Java 11, Spring Core, Spring MVC, Spring Data Jpa, Apache Tomcat 10
 
-Приложение представляет систему электронной библиотеки. 
-Основные функции: Добавление пользователя, его изменение и удаление. Добавление книг, изменение и удаление книг.
-Привзяка и удаление книг у определённого пользователя. Вывод списка книг на странице пользователя. 
+<b>What is it?</b> Library App is an application for library accounting of books, 
+but in the format of a web application. The main purpose of the application is to facilitate the work of librarians 
+and speed up the process of searching for books by genre.
+<hr>
+<b>Technologies used :</b>
+<ul>
+    <li>Java 17</li>
+    <li>Maven</li>
+    <li>Spring Framework 6.0
+        <ul><li>Security</li><li>MVC</li><li>Data JPA</li></ul></li>
+    <li>Thymeleaf</li>
+    <li>PostgreSQL</li>
+</ul>
+<hr>
+<!--<h2>Getting Started</h2> MAKE IT LATER -->
