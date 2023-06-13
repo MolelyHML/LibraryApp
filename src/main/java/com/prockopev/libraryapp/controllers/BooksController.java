@@ -13,6 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @RequestMapping("/books")
 public class BooksController {
@@ -63,12 +67,14 @@ public class BooksController {
                              @Valid String genreName) {
         bookValidator.validate(book, bindingResult);
 
-        System.out.println(genreName);
-
         if(bindingResult.hasErrors())
             return "/books/new";
 
+        Genre bookGenre = bookService.findGenreByName(genreName).orElse(null);
+        bookGenre.setBooks(Collections.singletonList(book));
+        book.setGenres(Collections.singletonList(bookGenre));
         bookService.save(book);
+        bookService.saveGenre(bookGenre);
         return "redirect:/books";
     }
 
@@ -105,7 +111,6 @@ public class BooksController {
     public String catchBook(@PathVariable("id")int id,
                             @ModelAttribute("person")Person person) {
         bookService.catchBook(id, person);
-        System.out.println(person);
         return "redirect:/books/{id}";
     }
 

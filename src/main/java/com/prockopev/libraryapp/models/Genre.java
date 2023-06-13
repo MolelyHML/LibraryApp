@@ -9,6 +9,7 @@ import java.util.List;
 public class Genre {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
     private int id;
 
