@@ -71,10 +71,6 @@ public class BooksController {
             return "/books/new";
 
         Genre bookGenre = bookService.findGenreByName(genre).orElse(null);
-
-        if(bookGenre == null)
-            throw new RuntimeException("Some problem with genre");//TODO исправить
-
         bookGenre.setBooks(Collections.singletonList(book));
         book.setGenres(Collections.singletonList(bookGenre));
         bookService.save(book);
