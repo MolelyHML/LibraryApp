@@ -1,5 +1,6 @@
 package com.prockopev.libraryapp.repository;
 
+import com.prockopev.libraryapp.models.Book;
 import com.prockopev.libraryapp.models.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

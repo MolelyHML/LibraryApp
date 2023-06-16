@@ -38,7 +38,7 @@ public class Book {
     @Temporal(TemporalType.TIMESTAMP)
     private Date catchTime;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(mappedBy = "books", fetch = FetchType.EAGER)
     private List<Genre> genres;
 
     @Transient

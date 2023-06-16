@@ -58,19 +58,23 @@ public class BooksController {
 
 
     @GetMapping("/new")
-    public String addBook(@ModelAttribute("book")Book book, @ModelAttribute("genre")Genre genre) {
+    public String addBook(@ModelAttribute("book")Book book, Model model) {
+        model.addAttribute("genres",bookService.getAllGenres());
         return "books/new";
     }
 
     @PostMapping
-    public String createBook(@ModelAttribute("book")@Valid Book book, BindingResult bindingResult,
-                             @Valid String genreName) {
+    public String createBook(@ModelAttribute("book")@Valid Book book, @Valid String genre, BindingResult bindingResult) {
         bookValidator.validate(book, bindingResult);
 
         if(bindingResult.hasErrors())
             return "/books/new";
 
-        Genre bookGenre = bookService.findGenreByName(genreName).orElse(null);
+        Genre bookGenre = bookService.findGenreByName(genre).orElse(null);
+
+        if(bookGenre == null)
+            throw new RuntimeException("Some problem with genre");//TODO исправить
+
         bookGenre.setBooks(Collections.singletonList(book));
         book.setGenres(Collections.singletonList(bookGenre));
         bookService.save(book);
@@ -81,9 +85,17 @@ public class BooksController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id")int id, Model model,
                        @ModelAttribute("person")Person person) {
-        model.addAttribute("book", bookService.findById(id));
-        model.addAttribute("owner", bookService.findById(id).getOwner());
+
+        Book book = bookService.findById(id);
+        model.addAttribute("book", book);
+        model.addAttribute("owner", book.getOwner());
         model.addAttribute("allPeople", personService.findAll());
+        List<Genre> bookGenres = book.getGenres();
+
+        if(bookGenres.isEmpty())
+            bookGenres.add(bookService.findGenreByName("Жанр не указан").orElse(null));
+        Genre genre = bookGenres.get(0);
+        model.addAttribute("genre", genre);
 
         return "/books/show";
     }

@@ -73,12 +73,15 @@ public class BookService {
             bookForFree.setOwner(null);
             bookForFree.setCatchTime(null);
         }
-
         save(bookForFree);
     }
 
     public Optional<Genre> findGenreByName(String genreName) {
         return genreRepository.findByGenreName(genreName);
+    }
+
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
     }
 
     @Transactional

@@ -16,22 +16,8 @@
   <input type="date" th:field="*{dateOfPublication}" id="dateOfPublication"/>
   <br/>
   <label for="genre">Выберите жанр книги</label>
-  <select id="genre" name="genreName">
-    <option value="DETECTIVE">Детектив</option>
-    <option value="SCIENCE FICTION">Научная фантастика</option>
-    <option value="FANTASY">Фэнтези</option>
-    <option value="ADVENTURES">Приключения</option>
-    <option value="NOVEL">Роман</option>
-    <option value="SCIENTIFIC">Научная литература</option>
-    <option value="FOLKLORE">Фольклор</option>
-    <option value="HUMOR">Комедия</option>
-    <option value="GUIDE">Гайд</option>
-    <option value="POETRY">Поэзия</option>
-    <option value="CHILDREN">Детская литература</option>
-    <option value="NONFICTION">Художественная литература</option>
-    <option value="BUSINESS">Бизнес литература</option>
-    <option value="RELIGIOUS">Религиозная литература</option>
-    <option value="EDUCATIONAL">Учебная литература</option>
+  <select id = "genre" name="genre">
+    <option th:each="genre : ${genres}" th:text="${genre.getGenreName()}" th:value="${genre.genreName}"></option>
   </select>
   <br/>
   <input type="submit" value="Добавить!">
